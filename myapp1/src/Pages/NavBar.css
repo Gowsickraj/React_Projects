@@ -1,0 +1,18 @@
+link {
+    display: inline;
+    list-style-type: none;
+    /* padding: 5vh; */
+    /* margin: 100px; */
+
+}
+.links{
+    margin-top: 20px;
+}
+a{
+    text-decoration: none;
+    padding: 3vh;
+}
+
+a:hover {
+    background-color: aquamarine;
+}

@@ -1,0 +1,21 @@
+form{
+
+    display: flex;
+    flex-direction: column; 
+    margin-top: 10vh;
+    margin-left: 2vh;
+
+}
+
+input{
+    width: 60%;
+    padding: 1vh;
+}
+
+input[type=submit]{
+    width: 5%;
+    margin-top: 1vh;
+}
+
+
+
