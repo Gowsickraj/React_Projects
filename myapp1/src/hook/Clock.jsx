@@ -85,7 +85,8 @@ const Clock = () => {
         let alarmTime;
 
         alarmTimings.map((item)=>({
-            alarmTime = item
+            alarmTime
+
             
         }))
 

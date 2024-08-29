@@ -29,7 +29,6 @@ const reducer = (state, action) => {
 export const UseReduceHook1 = () => {
 
 
-
     const [state, dispatch] = useReducer(reducer, initialState);
 
 

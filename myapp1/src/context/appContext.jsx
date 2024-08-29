@@ -10,14 +10,12 @@ const AppContext = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   // useEffect(() => {
   //   axios.get('https://jsonplaceholder.typicode.com/posts')
   //     .then((response) => {
   //       setData(response.data); ``
   //       setLoading(false);
   //     })
-
   // }, [])
 
   return (
@@ -33,9 +31,6 @@ const AppContext = ({ children }) => {
 
       {children}
     </MyContext.Provider>
-
-
-
   );
 }
 
