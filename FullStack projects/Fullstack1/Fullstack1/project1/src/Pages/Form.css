@@ -1,2 +1,77 @@
-*{
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+table,
+tr,
+th,
+td {
+    border: 1px solid saddlebrown;
+    border-collapse: collapse;
+    padding: 2vh;
+
+}
+
+button,
+input[type=submit],
+input[type=reset] {
+    border-radius: .5vh;
+    border: 1px solid darkgoldenrod;
+    padding: 2vh;
+    background-color: darkolivegreen;
+    color: bisque;
+    cursor: pointer;
+
+
+}
+
+input[type=submit],
+input[type=reset] {
+    margin-left: 2vh;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: grey;
+}
+
+input {
+    padding: 2vh;
+    margin-top: 2vh
+}
+
+.container {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-evenly;
+}
+
+.form-data {
+    /* display: flex; */
+
+}
+
+.form-data label {
+    /* gap: 20px; */
+    /* flex-direction: column; */
+    text-align: left;
+}
+
+.form-data input {}
+
+.table-data {
+    /* display: flex; */
+    /* justify-content: center; */
+
+}
+
+th {
+    background-color: darkolivegreen;
+    color: bisque;
+}
+
+tr:nth-child(odd) {
+    background-color: burlywood;
 }
