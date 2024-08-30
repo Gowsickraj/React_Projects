@@ -7,11 +7,11 @@ const Form = () => {
     // const [info, setInfo] = useState([]);
     const [details, setDetails] = useState({});
     const [savedData, setSavedData] = useState([]);
-    const [index, setIndex] = useState("");
+    const [indexState, setIndex] = useState("");
     const [update, setUpdate] = useState("Submit");
 
     const fetchData = () => {
-        axios.get(`${process.env.REACT_APP_SERVER}/get`)
+        axios.get(`${process.env.REACT_APP_SERVER}/api/get`)
             .then(response => {
                 if (response.data.code === 200) {
                     setSavedData(response.data.data)
@@ -19,6 +19,7 @@ const Form = () => {
                 }
             }
             )
+        // console.log("fetch data function");
     }
     useEffect(() => {
         fetchData();
@@ -42,8 +43,11 @@ const Form = () => {
                     .then((response) => {
                         // console.log(response, "axios")
                         if (response.data.code === 200) {
-                            fetchData();
+                            setSavedData(response.data.data)
+                            // fetchData();
                             setUpdate("Submit");
+                            setDetails({});
+
                         }
                     })
                     .catch((err) => {
@@ -55,18 +59,26 @@ const Form = () => {
             }
         }
         else if (update === "Update") {
-            console.log(details, "update state");
-            axios.put(`${process.env.REACT_APP_SERVER}/api/update`, { details, index })
+            // console.log(details, "update state");
+
+            // if (Object.values(details) !== Object.keys(details)) {
+
+            axios.put(`${process.env.REACT_APP_SERVER}/api/update`, { details, indexState })
                 .then(response => {
-                    console.log(response, "axios put");
+                    // console.log(response, "axios put");
                     if (response.data.code === 200) {
-                        fetchData();
                         setUpdate("Submit");
+                        setSavedData(response.data.data);
+                        setDetails({});
                     }
 
                 })
-        }
+            // } else {
+            //     alert("fill the empty boxes")
+            // }
 
+
+        }
     }
 
     // console.log(details, "saved data obj of array");
@@ -85,25 +97,24 @@ const Form = () => {
     // console.log(details, "object");
     // console.log(info, "arrayof objects");
 
-    const updateDetails = (index) => {
+    const updateDetails = (index1) => {
 
-        const arr = savedData[index];
-        setIndex(index);
-        setDetails(arr);
-        // console.log(arr, "update");
+        const obj = savedData[index1];
+        setDetails(obj);
+        setIndex(index1);
         setUpdate("Update");
-
-
     }
 
-    const deleteDetails = (index) => {
 
-        axios.delete(`${process.env.REACT_APP_SERVER}/api/delete`, index)
+    const deleteDetails = (index1) => {
+        // console.log("index to delete", index1);
+
+        axios.delete(`${process.env.REACT_APP_SERVER}/api/delete/${index1}`, index1)
             .then(response => {
                 if (response.data.code === 200) {
-                    console.log("data deleted succesfully");
-                    fetchData();
-                    // console.log("use-effect");
+                    // console.log("data deleted succesfully");
+                    setSavedData(response.data.data);
+                    // console.log(response.data.data);
                 }
                 else {
                     console.log("Data does not exist");
@@ -117,29 +128,24 @@ const Form = () => {
         <div>
 
             <div className='container'>
-
-
                 <div className='form-data'>
-
-
                     <form onSubmit={handleSubmit}>
                         <div>
                             <label >FirstName
-
-                                <input type='text' name='firstname' value={details.firstname} onChange={handleChange} />
+                                <input type='text' name='firstname' value={details.firstname || ""} onChange={handleChange} />
                             </label>
                         </div>
                         <div>
                             <label>LastName
 
-                                <input type='text' name='lastname' value={details.lastname} onChange={handleChange} />
+                                <input type='text' name='lastname' value={details.lastname || ""} onChange={handleChange} />
                             </label>
                         </div>
 
                         <div>
                             <label>City
 
-                                <input type='text' name='city' value={details.city} onChange={handleChange} />
+                                <input type='text' name='city' value={details.city || ""} onChange={handleChange} />
                             </label>
 
                         </div>
@@ -155,7 +161,7 @@ const Form = () => {
                             <tr>
                                 <th>FirstName</th>
                                 <th>LastName</th>
-                                <th>Date of Birth</th>
+                                <th>City</th>
                                 <th>Update</th>
                                 <th>Delete</th>
                             </tr>
@@ -168,7 +174,7 @@ const Form = () => {
                                 <tr key={index}>
                                     <td>{item.firstname}</td>
                                     <td>{item.lastname}</td>
-                                    <td>{item.dob}</td>
+                                    <td>{item.city}</td>
                                     <td>
                                         <button onClick={() => updateDetails(index)}>Update</button>
                                     </td>
@@ -192,6 +198,7 @@ const Form = () => {
 
     )
 }
+
 
 export default Form
 
