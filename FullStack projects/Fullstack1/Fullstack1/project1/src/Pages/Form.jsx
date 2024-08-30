@@ -35,14 +35,23 @@ const Form = () => {
 
         if (update === "Submit") {
 
-            axios.post(`${process.env.REACT_APP_SERVER}/save`, details)
-                .then(response => {
-                    console.log(response.data, "axios post")
+            if (Object.keys(details).length > 0) {
+
+            axios.post(`${process.env.REACT_APP_SERVER}/api/post`, details)
+                .then((response) => {
+                    // console.log(response, "axios")
                     if (response.data.code === 200) {
                         fetchData();
+                        setUpdate("Submit");
                     }
-                }
-                )
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        else {
+            alert("no data to submit")
+        }
         }
         else if (update === "Update") {
             console.log(details,"update state");
@@ -105,17 +114,41 @@ const Form = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label id='firstname' /> Firstname :
-                <input type='text' name='firstname' value={details.firstname} onChange={handleChange} />
-                <label id='lastname' /> LastName :
-                <input type='text' name='lastname' value={details.lastnmae} onChange={handleChange} />
-                <label id='dob' /> Date of Birth :
-                <input type='date' name='dob' value={details.dob} onChange={handleChange} />
+            
+            <div className='container'>
+
+
+                <div className='form-data'>
+
+
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label >FirstName
+
+                                <input type='text' name='firstname' value={details.firstname} onChange={handleChange}  />
+                            </label>
+                        </div>
+                        <div>
+                            <label>LastName
+
+                                <input type='text' name='lastname' value={details.lastname} onChange={handleChange} />
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>City
+
+                                <input type='text' name='city' value={details.city} onChange={handleChange} />
+                            </label>
+
+                        </div>
                 <input type='submit' value={update} />
+                          </form>
+                </div>
 
 
             </form>
+                <div className='table-data'>
 
             <table>
                 <thead>
@@ -149,6 +182,8 @@ const Form = () => {
 
                 </tbody>
             </table>
+                                    </div>
+
 
 
 
