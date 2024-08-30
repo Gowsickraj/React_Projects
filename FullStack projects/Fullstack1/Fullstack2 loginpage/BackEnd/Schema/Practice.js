@@ -5,7 +5,7 @@ const databaseURL = require("../Database/db");
 
 const schema = new mongoose.Schema({
     user_name: { type: String },
-    mobile_number: { type: Number },
+    mobile_number: { type: String },
 }, {
     timestamps: true,
 })
