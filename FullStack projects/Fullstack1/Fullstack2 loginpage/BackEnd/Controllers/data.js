@@ -2,10 +2,9 @@ const jwt = require("jsonwebtoken")
 const crypto = require("crypto");
 
 
-const { Practice_Schema } = require("../Schema/Practice")
+const { Practice_Schema } = require("../Model/Practice")
 
 const postData = async (req, res) => {
-
 
     try {
 
@@ -23,7 +22,7 @@ const postData = async (req, res) => {
         }
 
         )
-        // console.log(data,"data");
+        console.log(data,"data");
 
         if (data) {
             res.status(200).json({ code: 200, msg: "Data received successfully" })

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { MyContext } from './Context';
+import SignUp from './SignUp';
 
 const LoginPage = () => {
 
-    const [details, setDetails] = useState({});
-    const [error, setError] = useState("");
+    const { details, setDetails } = useContext(MyContext);
+    const { error, setError } = useContext(MyContext);
+    const { login, setLogin } = useContext(MyContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,46 +27,86 @@ const LoginPage = () => {
     // }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
         // console.log(process.env.REACT_APP_SERVER);
-        axios.post(`${process.env.REACT_APP_SERVER}/api/post`, details)
-            .then((response) => {
-                if (response.data.code === 200) {
-                    console.log(response.data.msg);
-                }
-                if (response.data.code === 500) {
-                    console.log(response.data.msg);
-                }
+        if (!login) {
+            e.preventDefault();
 
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+            axios.post(`${process.env.REACT_APP_SERVER}/api/getData`, details)
+                .then((response) => {
+                    if (response.data.code === 200) {
+                        setDetails({});
+                        console.log(response.data.msg);
+                        console.log(response.data.data[0].mobile_number);
 
+                        alert(`Welcome ${response.data.data[0].user_name}`);
+                    }
+                    else if (response.data.code === 400) {
+                        alert("no user found");
+                        setLogin(true);
 
+                    }
+                    else if (response.data.code === 500) {
+                        console.log(response.data.msg);
 
+                    }
 
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else {
+            axios.post(`${process.env.REACT_APP_SERVER}/api/post`, details)
+                .then((res) => {
+                    if (res.data.code === 200) {
+                        setDetails({});
+                        console.log(res.data.msg);
+                    }
+                    else {
+                        console.log(res.data.msg);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
     }
 
     return (
         <div>
 
+            {login &&
 
-            <h1>Login</h1>
-            <div className="container">
-                <form onSubmit={handleSubmit}>
-                    <label >Name :
-                        <input name='name' value={details.name} onChange={handleChange} />
-                    </label>
-                    <label>Mobile Number
-                        <input name="mobilenumber" value={details.mobilenumber} onChange={handleChange} />
-                    </label>
-                    <input type='submit' value="Login" />
+                <div className="container">
+                    <h1>Sign Up</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label >Name :
+                            <input name='name' value={details.name || ''} onChange={handleChange} />
+                        </label>
+                        <label>Mobile Number :
+                            <input name="mobilenumber" value={details.mobilenumber || ''} onChange={handleChange} required />
+                        </label>
+                        <input type='submit' value="SignUp" />
+                        <button onClick={() => setLogin(false)}>Login</button>
 
-                </form>
-            </div>
+                    </form>
+                </div>
+            }
+
+
+            {!login &&
+
+                <div className="container">
+                    <h1>Login</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label>Mobile Number :
+                            <input name="mobilenumber" value={details.mobilenumber || ''} onChange={handleChange} required />
+                        </label>
+                        <input type='submit' value="Login" />
+                        <button onClick={()=>setLogin(true)}>Sign Up</button>
+                    </form>
+                </div>
+            }
 
         </div>
     )
