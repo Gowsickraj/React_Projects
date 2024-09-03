@@ -8,11 +8,18 @@ const routes = require("express").Router();
 
 
 routes.post("/api/post", generateHash, postData);
-routes.post("/api/getData", generateHash, verifyMobileNumber)
+routes.post("/api/login", generateHash, verifyMobileNumber)
+
 
 
 routes.get("/api/get", getAllData)
 routes.get("/api/get/:name", getDataByName)
+
+// routes.get("/express/jsonp", (req, res) => {
+//     console.log("jsonp");
+//     res.jsonp({ "name": "Guru", "dom": "nov" })
+
+// })
 
 
 

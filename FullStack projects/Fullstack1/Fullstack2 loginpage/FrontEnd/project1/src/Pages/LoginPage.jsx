@@ -1,14 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { MyContext } from './Context';
 import SignUp from './SignUp';
+import { replace } from 'react-router-dom';
 
 const LoginPage = () => {
 
     const { details, setDetails } = useContext(MyContext);
     const { error, setError } = useContext(MyContext);
     const { login, setLogin } = useContext(MyContext);
+    const inputRef = useRef();
+    // const { navi } = useContext(MyContext);
+
+
+    // useEffect(() => {
+    //     navi(window.location.pathname, { replace: true });
+    // }, [navi])
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,19 +37,26 @@ const LoginPage = () => {
 
     const handleSubmit = (e) => {
         // console.log(process.env.REACT_APP_SERVER);
+        e.preventDefault();
         if (!login) {
-            e.preventDefault();
 
-            axios.post(`${process.env.REACT_APP_SERVER}/api/getData`, details)
+            axios.post(`${process.env.REACT_APP_SERVER}/api/login`, details)
                 .then((response) => {
                     if (response.data.code === 200) {
                         setDetails({});
-                        console.log(response.data.msg);
-                        console.log(response.data.data[0].mobile_number);
-
+                        
+                        console.log(response);
+                        // console.log(response.data.data[0].mobile_number);
                         alert(`Welcome ${response.data.data[0].user_name}`);
+                        setError(true);
+                        inputRef.current.style.display = "none";
+                        localStorage.setItem("jwttoken", JSON.stringify(response.data.jwt_token));
+
                     }
                     else if (response.data.code === 400) {
+                        if(response.data.msg === "user registered already"){
+                            alert("user registered already")
+                        }
                         alert("no user found");
                         setLogin(true);
 
@@ -72,12 +88,17 @@ const LoginPage = () => {
 
     }
 
+    const backToLoginButton = (e) => {
+
+
+    }
+
     return (
         <div>
 
             {login &&
 
-                <div className="container">
+                <div className="container" ref={inputRef}>
                     <h1>Sign Up</h1>
                     <form onSubmit={handleSubmit}>
                         <label >Name :
@@ -96,15 +117,27 @@ const LoginPage = () => {
 
             {!login &&
 
-                <div className="container">
+                <div className="container" ref={inputRef}>
                     <h1>Login</h1>
                     <form onSubmit={handleSubmit}>
                         <label>Mobile Number :
                             <input name="mobilenumber" value={details.mobilenumber || ''} onChange={handleChange} required />
                         </label>
                         <input type='submit' value="Login" />
-                        <button onClick={()=>setLogin(true)}>Sign Up</button>
+                        <button onClick={() => setLogin(true)}>Sign Up</button>
                     </form>
+                </div>
+            }
+            {error &&
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div>
+                        <h1>Welcome</h1>
+                        <button onClick={() => {
+                            setError(false);
+                            inputRef.current.style.display = "inline-block";
+                            localStorage.removeItem("jwttoken");
+                        }}>Back to login</button>
+                    </div>
                 </div>
             }
 

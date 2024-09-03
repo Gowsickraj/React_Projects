@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import {useNavigate} from 'react-router-dom';
 
 
 export const MyContext = createContext();
@@ -6,8 +7,10 @@ export const MyContext = createContext();
 export const Context = ({ children }) => {
 
     const [details, setDetails] = useState({});
-    const [error, setError] = useState("");
+    const [error, setError] = useState(false);
     const [login, setLogin] = useState(false);
+
+    // const navi = useNavigate();
 
 
     return (
@@ -19,7 +22,8 @@ export const Context = ({ children }) => {
                     error,
                     setError,
                     login,
-                    setLogin
+                    setLogin,
+                    
                 }}>
                 {children}
 

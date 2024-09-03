@@ -5,14 +5,13 @@ const databaseURL = require("../Database/db");
 
 const schema = new mongoose.Schema({
     user_name: { type: String },
-    mobile_number: { type: String },
+    mobile_number: { type: String, unique: true },
+    role: { type: String, default: "user", enum: ["user", "admin"] }
 }, {
     timestamps: true,
 })
 
 const Practice_Schema = databaseURL.model("Practice", schema);
-
-
 
 const getAllData = async (req, res) => {
 

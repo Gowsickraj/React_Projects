@@ -9,7 +9,7 @@ const generateHash = (req, res, next) => {
     //     create_hash = mobilenumber;
     // }
     req.hash = crypto.createHash('sha256').update(mobilenumber).digest('hex');
-    console.log(req.hash,"hashed");
+    // console.log(req.hash,"hashed");
     next();
 
 }
