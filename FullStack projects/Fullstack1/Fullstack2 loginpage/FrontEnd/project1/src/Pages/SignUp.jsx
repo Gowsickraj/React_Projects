@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { MyContext } from './Context';
+import { Link } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -55,15 +56,19 @@ const SignUp = () => {
 
         <div>
 
-            <div className="container">
+            <div className="container" >
+                <h1>Sign Up</h1>
                 <form onSubmit={handleSubmit}>
                     <label >Name :
                         <input name='name' value={details.name || ''} onChange={handleChange} />
                     </label>
-                    <label>Mobile Number
-                        <input name="mobilenumber" value={details.mobilenumber || ''} onChange={handleChange} />
+                    <label>Mobile Number :
+                        <input name="mobilenumber" value={details.mobilenumber || ''} onChange={handleChange} required />
                     </label>
-                    <input type='submit' value="Sign Up" />
+                    <input type='submit' value="SignUp" />
+                    <button>
+                        <Link to="/">Login</Link>
+                    </button>
 
                 </form>
             </div>

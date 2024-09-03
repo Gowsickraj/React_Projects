@@ -1,6 +1,6 @@
-const routes = require("express").Router();
+const test_routes = require("express").Router();
 
-routes.get("/express/download", (req, res) => {
+test_routes.get("/express/download", (req, res) => {
     console.log("download");
     const filePath = "C:\\Users\\Training\\Desktop\\React\\FullStack projects\\Fullstack1\\Fullstack2 loginpage\\FrontEnd\\project1\\public\\index.html";
     res.download(filePath, "index.html file", (err) => {
@@ -9,15 +9,15 @@ routes.get("/express/download", (req, res) => {
 })
 
 
-routes.get("/express/jsonp", (req, res) => {
+test_routes.get("/express/jsonp", (req, res) => {
     console.log("jsonp");
     res.jsonp({ "name": "Guru", "dom": "nov" })
 
 })
 
-routes.get("/express/sendfile", (req, res) => {
+test_routes.get("/express/sendfile", (req, res) => {
 
-    const filePath = "C:\\Users\\Training\\Desktop\\React\\FullStack projects\\Fullstack1\\Fullstack2 loginpage\\FrontEnd\\project1\\public\\index.html";
+    const filePath = "C:\\Users\\Training\\Desktop\\React\\FullStack projects\\Fullstack1\\Fullstack2 loginpage\\BackEnd\\Routes\\test.js"
     res.sendFile(filePath, (err) => {
         console.log(err);
     })
@@ -25,4 +25,4 @@ routes.get("/express/sendfile", (req, res) => {
 })
 
 module.exports=
-{routes}
+{test_routes}
